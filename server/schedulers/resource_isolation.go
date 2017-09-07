@@ -78,39 +78,3 @@ func filterSource(cluster schedule.Cluster) (*Constraint, *core.StoreInfo, *core
 	}
 	return nil, nil, nil, false
 }
-
-
-type Constraint struct{
-	// Name 唯一标识一个 Constraint
-	Name string
-
-	TableId int
-
-	// MinKey, MaxKey 有 TableId 计算得来
-	MinKey int
-	MaxKey int
-	Labels []string
-
-}
-
-func (c *Constraint) ContainsStore(s core.StoreInfo) bool {
-
-	for _, l := range s.Labels{
-		for _, constraintLabel := range c.Labels {
-			if l == constraintLabel {
-				return true
-			}
-		}
-	}
-	return false
-}
-
-func (c *Constraint) ContainsRegion(r core.RegionInfo) bool {
-
-	startKey := r.StartKey
-	endKey := r.EndKey
-
-	// TODO given a tableid t_id, how to figure out whether it resides between startKey & endKey?
-
-
-}
