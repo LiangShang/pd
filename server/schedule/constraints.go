@@ -62,3 +62,18 @@ func (c *Constraint) ContainsRegion(r core.RegionInfo) bool {
 
 }
 
+// TODO this func convert tableName to tableId accroding to info from cluster
+func (c *Constraint) ConvertTableNameToId(cluster Cluster) (bool, error) {
+
+	if id, ok := cluster.FindTableIdByName(c.TableName); ok {
+
+		// TODO mutex lock is needed or not?
+		c.TableId = id
+		c.MaxKey = calMaxKey(id)
+		c.MinKey = calMinKey(id)
+		c.State = READY
+		return true, nil
+	}
+	return false, nil
+}
+
