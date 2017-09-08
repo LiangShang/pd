@@ -39,6 +39,10 @@ type Cluster interface {
 	IsRegionHot(id uint64) bool
 	RegionWriteStats() []*core.RegionStat
 
+	// Constraints stores in cluster, save to etcd
+	AddConstraint(c Constraint) bool
+	GetConstraints() []*Constraint
+
 	// TODO: it should be removed. Schedulers don't need to know anything
 	// about peers.
 	AllocPeer(storeID uint64) (*metapb.Peer, error)

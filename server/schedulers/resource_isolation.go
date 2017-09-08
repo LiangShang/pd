@@ -62,14 +62,14 @@ func (s *resourceIsolationScheduler) Schedule(cluster schedule.Cluster) schedule
 
 // self-defined filter function, not impl schedule.Filter
 //
-func filterSource(cluster schedule.Cluster) (*Constraint, *core.StoreInfo, *core.RegionInfo, bool) {
+func filterSource(cluster schedule.Cluster) (*schedule.Constraint, *core.StoreInfo, *core.RegionInfo, bool) {
 	for _, s := range cluster.GetStores() {
-		for _, constraint := range cluster.Constraints() {
+		for _, constraint := range cluster.GetConstraints() {
 			if constraint.ContainsStore(s) {
 				continue
 			}
 			// this store is not included in the constraint, check whether it contains inappropriate region
-			for _, region := range s.AllRegions() {
+			for _, region := range GetAllRegionsOn(s) {
 				if constraint.ConstainsRegion(region) {
 					return constraint, s, region, true
 				}

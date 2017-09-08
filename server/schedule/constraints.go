@@ -69,6 +69,7 @@ func (c *Constraint) ConvertTableNameToId(cluster Cluster) (bool, error) {
 
 		// TODO mutex lock is needed or not?
 		c.TableId = id
+		// cal max and min key based on tableId
 		c.MaxKey = calMaxKey(id)
 		c.MinKey = calMinKey(id)
 		c.State = READY
